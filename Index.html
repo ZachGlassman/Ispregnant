@@ -3,18 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>still waiting</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Is Dulcie in Labor?</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f7fa;
+            color: #004d40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #00695c;
+        }
+        select, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            border: 1px solid #004d40;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #004d40;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #00332c;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #004d40;
+        }
+        #timestamp {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 12px;
+            color: #00796b;
+        }
+    </style>
+    <script>
+        function checkLaborStatus() {
+            const language = document.getElementById("language").value;
+            let translation = "Language not found";
+
+            const translations = {
+                english: "No",
+                spanish: "No",
+                french: "Non",
+                german: "Nein",
+                italian: "No",
+                japanese: "いいえ (Iie)",
+                russian: "Нет (Net)",
+                chinese: "不 (Bù)",
+                portuguese: "Não",
+                arabic: "لا (La)",
+                hindi: "नहीं (Nahin)",
+                korean: "아니요 (Aniyo)",
+                turkish: "Hayır",
+                dutch: "Nee",
+                swedish: "Nej",
+                greek: "Όχι (Ochi)",
+                polish: "Nie",
+                hebrew: "לא (Lo)"
+            };
+
+            if (translations[language]) {
+                translation = translations[language];
+            }
+
+            document.getElementById("result").innerText = `${language.charAt(0).toUpperCase() + language.slice(1)}: ${translation}`;
+        }
+    </script>
 </head>
 <body>
     <div class="container">
-        <h1>still waiting ......</h1>
-        <p class="highlight"><b> (not in labor)</b></p>
-        <canvas id="fireworksCanvas"></canvas>
+        <h1>Is Dulcie in Labor?</h1>
+        <form onsubmit="event.preventDefault(); checkLaborStatus();">
+            <label for="language">Select a language:</label>
+            <select id="language" name="language">
+                <option value="english">English</option>
+                <option value="spanish">Spanish</option>
+                <option value="french">French</option>
+                <option value="german">German</option>
+                <option value="italian">Italian</option>
+                <option value="japanese">Japanese</option>
+                <option value="russian">Russian</option>
+                <option value="chinese">Chinese</option>
+                <option value="portuguese">Portuguese</option>
+                <option value="arabic">Arabic</option>
+                <option value="hindi">Hindi</option>
+                <option value="korean">Korean</option>
+                <option value="turkish">Turkish</option>
+                <option value="dutch">Dutch</option>
+                <option value="swedish">Swedish</option>
+                <option value="greek">Greek</option>
+                <option value="polish">Polish</option>
+                <option value="hebrew">Hebrew</option>
+            </select>
+            <br>
+            <button type="submit">Check</button>
+        </form>
+        <p id="result"></p>
+        <div id="timestamp">Updated at May 31 8:30 PM ET</div>
     </div>
-
-    <div id="last-updated">Last updated: May 31, 2024, 6:30PM ET</div>
-
-    <script src="script.js"></script>
 </body>
 </html>
