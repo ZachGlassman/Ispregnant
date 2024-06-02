@@ -1,249 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Is Dulcie in Labor?</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Spinning Cat</title>
     <style>
-        .center-screen {
+        body {
+            overflow: hidden;
+            position: relative;
+            margin: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-        }
-        .box {
-            background-color: #F8F9FA;
-            border-radius: 5px;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #f0f0f0;
         }
 
-        #timestamp {
-            position: fixed;
-            right: 20px;
-            bottom: 20px;
-        }
-
-        #result.final {
-            font-size: 2em;
-            font-weight: bold;
-        }
-        body {
-            animation: gradient 5s ease-in-out infinite;
-            background: linear-gradient(60deg, #7d53fc 0%, #a9adbb 100%);
-            background-size: 200% 200%;
-        }
-
-        @keyframes gradient {
-            0% {
-                background-position: 100% 0%;
-            }
-            50% {
-                background-position: 100% 100%;
-            }
-            100% {
-                background-position: 0% 100%;
-            }
-        }
-        .footer-text {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            padding: 10px;
-            font-size: 0.8em;
-            color: #fd0606;
-        }
-        .terminal {
-            font-family: 'Courier New', monospace;
-            color: #00FF00;
-            background-color: #000;
-            padding: 10px;
-            overflow: auto;
-            white-space: pre-wrap;
-            max-height: 200px; /* Adjust as needed */
-        }
-        .cat {
+        .cat, .no {
             position: absolute;
-            bottom: 57vh;
+            animation: bounce 10s linear infinite;
+        }
+
+        .cat {
+            width: 200px;
+            height: 200px;
             background-image: url('cat.jpg');
-            animation: run 15s linear infinite;
-            background-color: aliceblue;
             background-size: contain;
             background-repeat: no-repeat;
         }
 
-        @keyframes run {
-            0% {
-                left: -50px;
-            }
-            100% {
-                left: 100%;
-            }
+        .no {
+            font-size: 5em;
+            color: #FF00FF;
+            text-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF, 0 0 15px #FF00FF, 0 0 20px #FF00FF;
+        }
+
+        .made-with-love {
+            position: absolute;
+            left: 10px;
+            bottom: 10px;
+            font-size: 1.5em;
+        }
+
+        .updated-at {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            font-size: 1.5em;
         }
     </style>
-    <script>
-        window.onload = () => {
-            const img = new Image();
-            img.onload = function() {
-                document.querySelectorAll('.cat').forEach(cat => {
-                    cat.style.width = this.naturalWidth / 10 + 'px';
-                    cat.style.height = this.naturalHeight /10 + 'px';
-                    cat.style.animationDelay = Math.random() * 5 + 's';
-                });
-            }
-            img.src = 'cat.jpg';
-        }
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        function typeInTerminal(index) {
-            if (index > 1000) {
-                return;
-            } 
-            const terminal = document.getElementById('terminal');
-            var randomChar = chars.charAt(Math.floor(Math.random() * chars.length));
-            terminal.textContent += randomChar;
-
-            // Add a line break every 50 characters
-            if (index % 50 === 0) {
-                terminal.textContent += '\n';
-            }
-
-            index++;
-            setTimeout(() => typeInTerminal(index), 19); // Adjust speed here
-
-            // Auto scroll to bottom
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-
-        function checkLaborStatus() {
-            const language = document.getElementById("language").value;
-            let translation = "Language not found";
-
-            const translations = {
-                english: "No",
-                spanish: "No",
-                french: "Non",
-                german: "Nein",
-                italian: "No",
-                japanese: "いいえ (Iie)",
-                russian: "Нет (Net)",
-                chinese: "不 (Bù)",
-                portuguese: "Não",
-                arabic: "لا (La)",
-                hindi: "नहीं (Nahin)",
-                korean: "아니요 (Aniyo)",
-                turkish: "Hayır",
-                dutch: "Nee",
-                swedish: "Nej",
-                greek: "Όχι (Ochi)",
-                polish: "Nie",
-                hebrew: "לא (Lo)"
-            };
-
-            if (translations[language]) {
-                translation = translations[language];
-            }
-
-            document.getElementById("result").innerText = "Establishing connection to source of pregnancy information";
-            document.getElementById("result-progress").style.width = `0%`;
-            document.getElementById("result-progress").setAttribute('aria-valuenow', 0);
-            document.getElementById("result").classList.remove('final');
-
-            $('#resultModal').modal('show');
-
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 5;
-                document.getElementById("result-progress").style.width = `${progress}%`;
-                document.getElementById("result-progress").setAttribute('aria-valuenow', progress);
-
-                if (progress === 40) {
-                    document.getElementById("result").innerText = "Executing AI models to confirm labor status";
-                    typeInTerminal(0);
-                } else if (progress === 70) {
-                    document.getElementById("result").innerText = "Undergoing machine translation";
-                } else if (progress === 100) {
-                    clearInterval(interval);
-                    let terminal = document.getElementById('terminal');
-                    terminal.textContent = '';
-                    document.getElementById("result").innerText = `${language.charAt(0).toUpperCase() + language.slice(1)}: ${translation}`;
-                    document.getElementById("result").classList.add('final');
-
-                }
-            }, 400);
-        }
-    </script>
 </head>
 <body>
-    <div class="bg-light text-center py-3">
-        <h1 class="mb-0">Advanced Dulcie Labor Portal</h1>
-        <p class="mb-0 text-muted">Leveraging cutting-edge AI, machine learning, and real-time data processing to provide up-to-date notifications of labor status.</p>
-    </div>
-    <div class="container center-screen">
-        <div class="box">
-            <h2 class="mb-4">Is Dulcie in Labor?</h2>
-            <form onsubmit="event.preventDefault(); checkLaborStatus();">
-                <label for="language" class="form-label">Choose language:</label>
-                <select id="language" class="custom-select mb-3">
-                        <option value="english">English</option>
-                        <option value="spanish">Spanish</option>
-                        <option value="french">French</option>
-                        <option value="german">German</option>
-                        <option value="italian">Italian</option>
-                        <option value="japanese">Japanese</option>
-                        <option value="russian">Russian</option>
-                        <option value="chinese">Chinese</option>
-                        <option value="portuguese">Portuguese</option>
-                        <option value="arabic">Arabic</option>
-                        <option value="hindi">Hindi</option>
-                        <option value="korean">Korean</option>
-                        <option value="turkish">Turkish</option>
-                        <option value="dutch">Dutch</option>
-                        <option value="swedish">Swedish</option>
-                        <option value="greek">Greek</option>
-                        <option value="polish">Polish</option>
-                        <option value="hebrew">Hebrew</option>
-                    
-                </select>
-                <button class="btn btn-primary">Submit</button>
-            </form>
-            
-        </div>
-    </div>
-
     <div class="cat"></div>
+    <div class="no">NO</div>
+    <div class="made-with-love">Made with love by the husband</div>
+    <div class="updated-at">Updated at June 2, 4:30PM ET</div>
 
-    <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="resultModalLabel">Labor Status</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            
-            <div class="modal-body">
-              <!-- Result will be inserted here -->
-              <div id="result"></div>
+    <script>
+        function randomPosition() {
+            return Math.floor(Math.random() * 80) + 'vw';
+        }
 
-              <div class="progress">
-                <div id="result-progress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-              <br/>
-              <div id="terminal" class="terminal"></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
+        function randomAnimation() {
+            return `@keyframes bounce {
+                0% { transform: translate(0, 0); }
+                25% { transform: translate(${randomPosition()}, 0); }
+                50% { transform: translate(${randomPosition()}, ${randomPosition()}); }
+                75% { transform: translate(0, ${randomPosition()}); }
+                100% { transform: translate(0, 0); }
+            }`;
+        }
 
-      <div class="footer-text">Made with ❤️ by the husband</div>
-      <div id="timestamp">Updated at June 2 9:00 AM ET</div>
+        const style = document.createElement('style');
+        style.innerHTML = randomAnimation();
+        document.head.appendChild(style);
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+        setInterval(() => {
+            style.innerHTML = randomAnimation();
+        }, 10000);
+    </script>
 </body>
 </html>
