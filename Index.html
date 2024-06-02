@@ -63,8 +63,37 @@
             white-space: pre-wrap;
             max-height: 200px; /* Adjust as needed */
         }
+        .cat {
+            position: absolute;
+            bottom: 57vh;
+            background-image: url('cat.jpg');
+            animation: run 15s linear infinite;
+            background-color: aliceblue;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        @keyframes run {
+            0% {
+                left: -50px;
+            }
+            100% {
+                left: 100%;
+            }
+        }
     </style>
     <script>
+        window.onload = () => {
+            const img = new Image();
+            img.onload = function() {
+                document.querySelectorAll('.cat').forEach(cat => {
+                    cat.style.width = this.naturalWidth / 10 + 'px';
+                    cat.style.height = this.naturalHeight /10 + 'px';
+                    cat.style.animationDelay = Math.random() * 5 + 's';
+                });
+            }
+            img.src = 'cat.jpg';
+        }
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         function typeInTerminal(index) {
             if (index > 1000) {
@@ -181,6 +210,8 @@
             
         </div>
     </div>
+
+    <div class="cat"></div>
 
     <div class="modal fade" id="resultModal" tabindex="-1" role="dialog" aria-labelledby="resultModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
