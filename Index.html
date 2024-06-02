@@ -40,8 +40,38 @@
             font-size: 0.8em;
             color: #fd0606;
         }
+        .terminal {
+            font-family: 'Courier New', monospace;
+            color: #00FF00;
+            background-color: #000;
+            padding: 10px;
+            overflow: auto;
+            white-space: pre-wrap;
+            max-height: 200px; /* Adjust as needed */
+        }
     </style>
     <script>
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        function typeInTerminal(index) {
+            if (index > 1000) {
+                return;
+            } 
+            const terminal = document.getElementById('terminal');
+            var randomChar = chars.charAt(Math.floor(Math.random() * chars.length));
+            terminal.textContent += randomChar;
+
+            // Add a line break every 50 characters
+            if (index % 50 === 0) {
+                terminal.textContent += '\n';
+            }
+
+            index++;
+            setTimeout(() => typeInTerminal(index), 19); // Adjust speed here
+
+            // Auto scroll to bottom
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
         function checkLaborStatus() {
             const language = document.getElementById("language").value;
             let translation = "Language not found";
@@ -86,10 +116,13 @@
 
                 if (progress === 40) {
                     document.getElementById("result").innerText = "Executing AI models to confirm labor status";
+                    typeInTerminal(0);
                 } else if (progress === 70) {
                     document.getElementById("result").innerText = "Undergoing machine translation";
                 } else if (progress === 100) {
                     clearInterval(interval);
+                    let terminal = document.getElementById('terminal');
+                    terminal.textContent = '';
                     document.getElementById("result").innerText = `${language.charAt(0).toUpperCase() + language.slice(1)}: ${translation}`;
                     document.getElementById("result").classList.add('final');
 
@@ -152,6 +185,8 @@
               <div class="progress">
                 <div id="result-progress" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
+              <br/>
+              <div id="terminal" class="terminal"></div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -161,7 +196,7 @@
       </div>
 
       <div class="footer-text">Made with ❤️ by the husband</div>
-      <div id="timestamp">Updated at June 1 2:30 PM ET</div>
+      <div id="timestamp">Updated at June 1 8:30 PM ET</div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
