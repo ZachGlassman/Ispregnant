@@ -1,81 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Spinning Cat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is Dulcie Pregnant?</title>
     <style>
         body {
-            overflow: hidden;
-            position: relative;
             margin: 0;
+            padding: 0;
             height: 100vh;
+            background: url('cat.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            color: white;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            background-color: #f0f0f0;
+            text-align: center;
         }
-
-        .cat, .no {
+        .header {
+            margin-top: 20px;
+            font-size: 3em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+        .footer {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .footer-left, .footer-right {
+            font-size: 1em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        .footer-left {
+            margin-left: 20px;
+        }
+        .footer-right {
+            margin-right: 20px;
+        }
+        .footer-center {
             position: absolute;
-            animation: bounce 10s linear infinite;
-        }
-
-        .cat {
-            width: 200px;
-            height: 200px;
-            background-image: url('cat.jpg');
-            background-size: contain;
-            background-repeat: no-repeat;
-        }
-
-        .no {
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
             font-size: 5em;
-            color: #FF00FF;
-            text-shadow: 0 0 5px #FF00FF, 0 0 10px #FF00FF, 0 0 15px #FF00FF, 0 0 20px #FF00FF;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
         }
-
-        .made-with-love {
-            position: absolute;
-            left: 10px;
-            bottom: 10px;
-            font-size: 1.5em;
-        }
-
-        .updated-at {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-            font-size: 1.5em;
+        .heart {
+            color: red;
         }
     </style>
 </head>
 <body>
-    <div class="cat"></div>
-    <div class="no">NO</div>
-    <div class="made-with-love">Made with love by the husband</div>
-    <div class="updated-at">Updated at June 2, 4:30PM ET</div>
-
-    <script>
-        function randomPosition() {
-            return Math.floor(Math.random() * 80) + 'vw';
-        }
-
-        function randomAnimation() {
-            return `@keyframes bounce {
-                0% { transform: translate(0, 0); }
-                25% { transform: translate(${randomPosition()}, 0); }
-                50% { transform: translate(${randomPosition()}, ${randomPosition()}); }
-                75% { transform: translate(0, ${randomPosition()}); }
-                100% { transform: translate(0, 0); }
-            }`;
-        }
-
-        const style = document.createElement('style');
-        style.innerHTML = randomAnimation();
-        document.head.appendChild(style);
-
-        setInterval(() => {
-            style.innerHTML = randomAnimation();
-        }, 10000);
-    </script>
+    <div class="header">
+        Is Dulcie Pregnant?
+    </div>
+    <div class="footer">
+        <div class="footer-left">
+            Made with <span class="heart">❤️</span> by husband
+        </div>
+        <div class="footer-right">
+            Update at June 3, 7:30 PM ET
+        </div>
+        <div class="footer-center">
+            Max says: "No"
+        </div>
+    </div>
 </body>
 </html>
