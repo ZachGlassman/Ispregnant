@@ -80,15 +80,17 @@
         let speedX = 2;
         let speedY = 2;
 
+        const generateRandomSpeed = () => (Math.random() -.5)/10;
+
         function updatePosition() {
             posX += speedX;
             posY += speedY;
 
             if (posX <= 0 || posX + cat.offsetWidth >= window.innerWidth) {
-                speedX = -speedX;
+                speedX = -speedX + generateRandomSpeed();
             }
             if (posY <= 0 || posY + cat.offsetHeight >= window.innerHeight) {
-                speedY = -speedY;
+                speedY = -speedY + generateRandomSpeed();
             }
 
             cat.style.left = posX + 'px';
