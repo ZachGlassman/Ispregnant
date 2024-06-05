@@ -58,9 +58,19 @@
         .heart {
             color: red;
         }
+
+
+        .slider {
+            position: fixed;
+            top: 10px;
+        }
     </style>
 </head>
 <body>
+    <div class="slider">
+        <p>Control the Max speed</p>
+        <input type="range" min="1" max="10" value="2" class="slider" id="speed">
+      </div>
     <div id="cat">
         <div class="text-overlay">Yes</div>
     </div>
@@ -69,11 +79,18 @@
             Made with <span class="heart">❤️</span> by husband
         </div>
         <div class="footer-right">
-            Updated at June 5, 3:00 AM ET
+            Updated at June 5, 2:30 PM ET
         </div>
     </div>
 
     <script>
+        let speed = 2;
+        let previousSpeed = 2;
+        const speedDial = document.getElementById('speed')
+        speedDial.addEventListener("input", (event) => {
+                const newSpeed = parseInt(event.target.value);
+                speed = newSpeed;
+            });
         let cat = document.getElementById('cat');
         let posX = Math.random() * (window.innerWidth - cat.offsetWidth);
         let posY = Math.random() * (window.innerHeight - cat.offsetHeight);
@@ -82,7 +99,20 @@
 
         const generateRandomSpeed = () => (Math.random() -.5)/10;
 
+        const updateSpeed = (previousBaseSpeed, newBaseSpeed, actualSpeed) => {
+            if (actualSpeed < 0) {
+                return (actualSpeed + previousBaseSpeed) - newBaseSpeed;
+            } else {
+                return (actualSpeed - previousBaseSpeed) + newBaseSpeed;
+            }
+        }
+
         function updatePosition() {
+            if (speed !== previousSpeed){
+                speedX = updateSpeed(previousSpeed, speed, speedX);
+                speedY = updateSpeed(previousSpeed, speed, speedY)
+            }
+            previousSpeed = speed;
             posX += speedX;
             posY += speedY;
 
